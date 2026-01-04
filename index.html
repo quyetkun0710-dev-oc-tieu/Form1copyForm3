@@ -30,9 +30,6 @@ body{background:#22c7fe;font-size:var(--font-sm);}
 .header-center{flex-direction:column;justify-content:center;text-align:center;}
 .header-logo-center{margin-bottom:8px;}
 .header-text-center h1,.header-text-center p{text-align:center;}
-.slider{width:100%;height:6px;border-radius:6px;background:#ddd;outline:none;-webkit-appearance:none;}
-.slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#ff0000;cursor:pointer;}
-.slider::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#ff0000;cursor:pointer;}
 </style>
 </head>
 <body class="p-2">
@@ -52,7 +49,7 @@ body{background:#22c7fe;font-size:var(--font-sm);}
 
 <form id="truckForm">
 
-<!-- 🚛 THÔNG TIN XE -->
+<!-- THÔNG TIN XE -->
 <div class="card-box">
 <p class="has-text-weight-semibold mb-2">🚛 THÔNG TIN XE</p>
 <div class="grid-2">
@@ -67,7 +64,6 @@ body{background:#22c7fe;font-size:var(--font-sm);}
     </div>
   </div>
 </div>
-
 <div class="grid-2 mt-2">
   <div><label class="label">Loại hàng *</label>
     <div class="select is-fullwidth">
@@ -84,7 +80,6 @@ body{background:#22c7fe;font-size:var(--font-sm);}
     </div>
   </div>
 </div>
-
 <div class="grid-1"><label class="label">Kho hàng *</label>
   <div class="select is-fullwidth">
     <select name="kho_hang" required>
@@ -93,7 +88,6 @@ body{background:#22c7fe;font-size:var(--font-sm);}
     </select>
   </div>
 </div>
-
 <div class="grid-2 mt-2">
   <div><label class="label">Loại xe *</label>
     <div class="select is-fullwidth">
@@ -116,7 +110,7 @@ body{background:#22c7fe;font-size:var(--font-sm);}
 </div>
 </div>
 
-<!-- ⏱ TIMELINE -->
+<!-- TIMELINE -->
 <div class="card-box">
 <p class="has-text-weight-semibold mb-2">⏱ TIMELINE XỬ LÝ</p>
 <div class="grid-1 time-item"><label>Xe vào cổng</label><input type="datetime-local" class="input" name="vao_cong"></div>
@@ -135,7 +129,7 @@ body{background:#22c7fe;font-size:var(--font-sm);}
 <div class="grid-1 mt-2 time-item"><label>Xe ra cổng</label><input type="datetime-local" class="input" name="ra_cong"></div>
 </div>
 
-<!-- 👷 NHÂN LỰC -->
+<!-- NHÂN LỰC -->
 <div class="card-box">
 <p class="has-text-weight-semibold mb-2">👷 NHÂN LỰC & GHI CHÚ</p>
 <div class="grid-2">
@@ -162,7 +156,7 @@ body{background:#22c7fe;font-size:var(--font-sm);}
 <textarea class="textarea" name="ghi_chu"></textarea>
 </div>
 
-<!-- 📎 CHỨNG TỪ -->
+<!-- CHỨNG TỪ -->
 <div class="card-box">
 <p class="has-text-weight-semibold mb-2">📎 CHỨNG TỪ ĐƠN HÀNG</p>
 <label class="label">Upload hình ảnh chứng từ / đơn hàng đã hoàn thành</label>
@@ -181,7 +175,7 @@ body{background:#22c7fe;font-size:var(--font-sm);}
 </div>
 
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx0Q3VJeK2EmMIIagST2rKRLg_ic9IsaM5RE4s-RCedykk-3l67oIdW64-GWGvm_70H/exec"; // Thay URL Web App
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzs45WD85yRDn_c3Web4acUxBZ7mNNEnoB-whsRrmeDSbScz3zYeau_QMxVBkw7EuYf/exec";
 
 document.getElementById("truckForm").addEventListener("submit", function(e){
   e.preventDefault();
@@ -224,4 +218,3 @@ document.getElementById("truckForm").addEventListener("submit", function(e){
 </script>
 </body>
 </html>
-
