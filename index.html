@@ -181,47 +181,71 @@ body{background:#22c7fe;font-size:var(--font-sm);}
 <script>
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzEmaQegYs3tPMvkeCRIFaWO-559z2FMOmH2yl4v7MrM2qIh8Z8hCZc4j54UWRbgO4cuw/exec";
 
+/* Giờ hiện tại */
+function now(){
+  return new Date().toISOString().slice(0,16);
+}
+
+/* Auto fill time */
+document.querySelectorAll('input[type="datetime-local"]').forEach(i=>{
+  i.addEventListener("focus", ()=>{
+    if(!i.value) i.value = now();
+  });
+});
+
+/* Submit */
 document.getElementById("truckForm").addEventListener("submit", function(e){
   e.preventDefault();
+
   const status = document.getElementById("status");
+  status.innerText = "⏳ Đang gửi dữ liệu...";
+
   const form = e.target;
+  const fd = new FormData(form);
 
-  const formData = new FormData(form);
-  const data = {};
-  formData.forEach((v,k)=>{data[k]=v;});
+  /* Check timeline */
+  const vao = fd.get("vao_cong");
+  const ra  = fd.get("ra_cong");
+  if(vao && ra && new Date(ra) < new Date(vao)){
+    status.innerText = "❌ Xe ra cổng không được sớm hơn xe vào cổng";
+    return;
+  }
 
-  const fileInput = document.querySelector('input[name="chung_tu"]');
-  if(fileInput && fileInput.files.length > 0){
+  /* Xử lý ảnh */
+  const fileInput = form.querySelector('input[name="chung_tu"]');
+  if(fileInput && fileInput.files.length){
     const reader = new FileReader();
-    reader.onload = function(evt){
-      data.chung_tu = evt.target.result.split(",")[1]; // Base64
-      sendData(data);
+    reader.onload = function(){
+      fd.set("chung_tu", reader.result.split(",")[1]);
+      send(fd);
     };
     reader.readAsDataURL(fileInput.files[0]);
   } else {
-    data.chung_tu = "";
-    sendData(data);
+    fd.set("chung_tu", "");
+    send(fd);
   }
 
-  function sendData(obj){
+  function send(formData){
     fetch(WEB_APP_URL, {
-      method:"POST",
-      body: JSON.stringify(obj),
-      headers: {"Content-Type":"application/json"}
+      method: "POST",
+      body: formData,
+      redirect: "follow"   // 🔥 cực kỳ quan trọng
     })
-    .then(r=>r.text())
-    .then(t=>{
+    .then(r => r.text())
+    .then(t => {
       status.innerText = t;
       form.reset();
     })
-    .catch(err=>{
-      status.innerText = "❌ Lỗi gửi dữ liệu: "+err;
+    .catch(err => {
+      status.innerText = "❌ Fetch error: " + err;
     });
   }
 });
 </script>
+
 </body>
 </html>
+
 
 
 
