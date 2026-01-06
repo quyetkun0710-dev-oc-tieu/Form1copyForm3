@@ -55,8 +55,14 @@ color:#fff;border-radius:18px;padding:18px;margin-bottom:16px;}
   <div class="select is-fullwidth">
     <select name="ncc" required>
       <option value="">Nhà cung cấp *</option>
-      <option>Q2C</option><option>Sơn Hùng</option><option>VT89</option>
-      <option>Tiến Lợi</option><option>CBT</option><option>KH Tự lấy</option>
+      <option>Q2C</option>
+      <option>Sơn Hùng</option>
+      <option>VT89</option>
+      <option>Tiến Lợi</option>
+      <option>CBT</option>
+      <option>KH Tự lấy</option>
+      <option>Đơn vị khác</option>
+      <option>NCC đến giao</option>
     </select>
   </div>
 </div>
@@ -91,7 +97,7 @@ color:#fff;border-radius:18px;padding:18px;margin-bottom:16px;}
   <div class="select is-fullwidth">
     <select name="loai_xe" required>
       <option value="">Loại xe *</option>
-      <option>Xe tải</option><option>Container</option>
+      <option>Xe tải</option><option>Container</option><option>Xe máy</option>
     </select>
   </div>
   <div class="select is-fullwidth">
@@ -165,7 +171,7 @@ color:#fff;border-radius:18px;padding:18px;margin-bottom:16px;}
 </div>
 
 <script>
-const WEB_APP_URL="https://script.google.com/macros/s/AKfycbxPvhvya6mGSZ2gjkdM6jd_oZlhbsK6-NS5S-ytyOOzrQFR2bLVbz8xitmN4uaCYEW7gQ/exec";
+const WEB_APP_URL="https://script.google.com/macros/s/AKfycbyLMzP3sTmgZ3Lb9yJg9aiCKnWtqbkEEukdMuaFbRcPEp-iPXvT258IXIgLgrLQ7x_kQw/exec";
 
 function now(){return new Date().toISOString().slice(0,16);}
 document.querySelectorAll('input[type="datetime-local"]').forEach(i=>{
@@ -197,8 +203,111 @@ document.getElementById("truckForm").addEventListener("submit",e=>{
   }
 });
 </script>
+
+<script>
+const loaiYeuCau = document.querySelector('select[name="loai_yeu_cau"]');
+
+const chuanBi = [
+  'bat_dau_chuan_bi',
+  'ket_thuc_chuan_bi'
+];
+
+const quet = [
+  'bat_dau_quet',
+  'ket_thuc_quet'
+];
+
+function toggleNhapKho(isNhapKho) {
+  [...chuanBi, ...quet].forEach(name => {
+    const el = document.querySelector(`input[name="${name}"]`);
+    if (!el) return;
+
+    el.required = !isNhapKho;
+    el.disabled = isNhapKho;
+
+    if (isNhapKho) el.value = "";
+  });
+}
+
+loaiYeuCau.addEventListener('change', () => {
+  toggleNhapKho(loaiYeuCau.value === "Nhập kho");
+});
+</script>
+
+<script>
+const loaiXe = document.querySelector('select[name="loai_xe"]');
+
+// timeline groups
+const disableWhenXeMay = [
+  'bat_dau_chuan_bi',
+  'ket_thuc_chuan_bi',
+  'bat_dau_quet',
+  'ket_thuc_quet',
+  'bat_dau_boc',
+  'ket_thuc_boc'
+];
+
+// nhân lực
+const nhanLuc = document.querySelector('select[name="nhan_luc"]');
+const soLuong = document.querySelector('select[name="so_luong"]');
+
+function toggleXeMay() {
+  const isXeMay = loaiXe.value === "Xe máy";
+
+  // xử lý timeline
+  disableWhenXeMay.forEach(name => {
+    const el = document.querySelector(`input[name="${name}"]`);
+    if (!el) return;
+
+    el.disabled = isXeMay;
+    el.required = !isXeMay;
+    if (isXeMay) el.value = "";
+  });
+
+  // xử lý nhân lực
+  if (nhanLuc) {
+    nhanLuc.disabled = isXeMay;
+    nhanLuc.required = !isXeMay;
+    if (isXeMay) nhanLuc.value = "";
+  }
+
+  if (soLuong) {
+    soLuong.disabled = isXeMay;
+    soLuong.required = !isXeMay;
+    if (isXeMay) soLuong.value = "";
+  }
+}
+
+loaiXe.addEventListener("change", toggleXeMay);
+
+// chạy ngay khi load form
+toggleXeMay();
+</script>
+
+<script>
+function refreshLogic() {
+  const isNhapKho = document.querySelector('select[name="loai_yeu_cau"]').value === "Nhập kho";
+  const isXeMay  = document.querySelector('select[name="loai_xe"]').value === "Xe máy";
+
+  // ƯU TIÊN XE MÁY
+  if (isXeMay) {
+    toggleXeMay();
+    return;
+  }
+
+  // KHÔNG phải xe máy → xử lý nhập kho
+  toggleNhapKho(isNhapKho);
+}
+
+// gắn lại event
+document.querySelector('select[name="loai_yeu_cau"]').addEventListener("change", refreshLogic);
+document.querySelector('select[name="loai_xe"]').addEventListener("change", refreshLogic);
+
+// chạy khi load
+refreshLogic();
+</script>
+
 </body>
 </html>
-
 
 
