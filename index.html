@@ -205,8 +205,11 @@ document.getElementById("truckForm").addEventListener("submit",e=>{
 </script>
 
 <script>
+const loaiXe = document.querySelector('select[name="loai_xe"]');
 const loaiYeuCau = document.querySelector('select[name="loai_yeu_cau"]');
+const taiTrong = document.querySelector('select[name="tai_trong"]');
 
+// timeline groups
 const chuanBi = [
   'bat_dau_chuan_bi',
   'ket_thuc_chuan_bi'
@@ -222,12 +225,11 @@ const boc = [
   'ket_thuc_boc'
 ];
 
-const cong = [
-  'vao_cong',
-  'ra_cong'
-];
+// nhân lực
+const nhanLuc = document.querySelector('select[name="nhan_luc"]');
+const soLuong = document.querySelector('select[name="so_luong"]');
 
-function setField(name, { disabled, required }) {
+function setInput(name, { disabled, required }) {
   const el = document.querySelector(`input[name="${name}"]`);
   if (!el) return;
   el.disabled = disabled;
@@ -235,27 +237,60 @@ function setField(name, { disabled, required }) {
   if (disabled) el.value = "";
 }
 
-function toggleNhapKho(isNhapKho) {
+function toggleXe() {
+  const isXeMay = loaiXe.value === "Xe máy";
+  const isNhapKho = loaiYeuCau.value === "Nhập kho";
 
-  // 🔴 Chuẩn bị + Quét: KHÔNG dùng khi nhập kho
-  [...chuanBi, ...quet].forEach(name => {
-    setField(name, { disabled: isNhapKho, required: !isNhapKho });
+  /* ======================
+     1️⃣ ƯU TIÊN NHẬP KHO
+  ====================== */
+  if (isNhapKho) {
+    // Chuẩn bị + Quét: KHÓA CỨNG
+    [...chuanBi, ...quet].forEach(name => {
+      setInput(name, { disabled: true, required: false });
+    });
+  } else {
+    // Xuất kho → xử lý theo loại xe
+    [...chuanBi, ...quet].forEach(name => {
+      setInput(name, { disabled: isXeMay, required: !isXeMay });
+    });
+  }
+
+  /* ======================
+     2️⃣ BỐC LUÔN DÙNG
+  ====================== */
+  boc.forEach(name => {
+    setInput(name, { disabled: false, required: true });
   });
 
-  // 🟢 Bốc + Cổng: LUÔN dùng khi nhập kho
-  [...boc, ...cong].forEach(name => {
-    setField(name, { disabled: false, required: isNhapKho });
-  });
+  /* ======================
+     3️⃣ NHÂN LỰC + TẢI TRỌNG
+  ====================== */
+  if (nhanLuc) {
+    nhanLuc.disabled = isXeMay;
+    nhanLuc.required = !isXeMay;
+    if (isXeMay) nhanLuc.value = "";
+  }
+
+  if (soLuong) {
+    soLuong.disabled = isXeMay;
+    soLuong.required = !isXeMay;
+    if (isXeMay) soLuong.value = "";
+  }
+
+  if (taiTrong) {
+    taiTrong.disabled = isXeMay;
+    taiTrong.required = !isXeMay;
+    if (isXeMay) taiTrong.value = "";
+  }
 }
 
-loaiYeuCau.addEventListener('change', () => {
-  toggleNhapKho(loaiYeuCau.value === "Nhập kho");
-});
+loaiXe.addEventListener("change", toggleXe);
+loaiYeuCau.addEventListener("change", toggleXe);
 
 // chạy lần đầu
-toggleNhapKho(loaiYeuCau.value === "Nhập kho");
+toggleXe();
 </script>
-
 
 
 </body>
