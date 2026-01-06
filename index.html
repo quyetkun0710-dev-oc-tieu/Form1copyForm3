@@ -217,77 +217,45 @@ const quet = [
   'ket_thuc_quet'
 ];
 
+const boc = [
+  'bat_dau_boc',
+  'ket_thuc_boc'
+];
+
+const cong = [
+  'vao_cong',
+  'ra_cong'
+];
+
+function setField(name, { disabled, required }) {
+  const el = document.querySelector(`input[name="${name}"]`);
+  if (!el) return;
+  el.disabled = disabled;
+  el.required = required;
+  if (disabled) el.value = "";
+}
+
 function toggleNhapKho(isNhapKho) {
+
+  // 🔴 Chuẩn bị + Quét: KHÔNG dùng khi nhập kho
   [...chuanBi, ...quet].forEach(name => {
-    const el = document.querySelector(`input[name="${name}"]`);
-    if (!el) return;
+    setField(name, { disabled: isNhapKho, required: !isNhapKho });
+  });
 
-    el.required = !isNhapKho;
-    el.disabled = isNhapKho;
-
-    if (isNhapKho) el.value = "";
+  // 🟢 Bốc + Cổng: LUÔN dùng khi nhập kho
+  [...boc, ...cong].forEach(name => {
+    setField(name, { disabled: false, required: isNhapKho });
   });
 }
 
 loaiYeuCau.addEventListener('change', () => {
   toggleNhapKho(loaiYeuCau.value === "Nhập kho");
 });
+
+// chạy lần đầu
+toggleNhapKho(loaiYeuCau.value === "Nhập kho");
 </script>
 
-<script>
-const loaiXe = document.querySelector('select[name="loai_xe"]');
-const taiTrong = document.querySelector('select[name="tai_trong"]');
-
-// timeline groups
-const disableWhenXeMay = [
-  'bat_dau_chuan_bi',
-  'ket_thuc_chuan_bi',
-  'bat_dau_quet',
-  'ket_thuc_quet',
-  'bat_dau_boc',
-  'ket_thuc_boc'
-];
-
-// nhân lực
-const nhanLuc = document.querySelector('select[name="nhan_luc"]');
-const soLuong = document.querySelector('select[name="so_luong"]');
-
-function toggleXeMay() {
-  const isXeMay = loaiXe.value === "Xe máy";
-
-  // timeline
-  disableWhenXeMay.forEach(name => {
-    const el = document.querySelector(`input[name="${name}"]`);
-    if (!el) return;
-    el.disabled = isXeMay;
-    el.required = !isXeMay;
-    if (isXeMay) el.value = "";
-  });
-
-  // nhân lực
-  if (nhanLuc) {
-    nhanLuc.disabled = isXeMay;
-    nhanLuc.required = !isXeMay;
-    if (isXeMay) nhanLuc.value = "";
-  }
-
-  if (soLuong) {
-    soLuong.disabled = isXeMay;
-    soLuong.required = !isXeMay;
-    if (isXeMay) soLuong.value = "";
-  }
-
-  // tải trọng
-  if (taiTrong) {
-    taiTrong.disabled = isXeMay;
-    taiTrong.required = !isXeMay;
-    if (isXeMay) taiTrong.value = "";
-  }
-}
-
-loaiXe.addEventListener("change", toggleXeMay);
-toggleXeMay();
-</script>
 
 
 </body>
