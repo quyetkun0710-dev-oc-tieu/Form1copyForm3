@@ -237,7 +237,6 @@ loaiYeuCau.addEventListener('change', () => {
 <script>
 const loaiXe = document.querySelector('select[name="loai_xe"]');
 
-// timeline groups
 const disableWhenXeMay = [
   'bat_dau_chuan_bi',
   'ket_thuc_chuan_bi',
@@ -247,9 +246,10 @@ const disableWhenXeMay = [
   'ket_thuc_boc'
 ];
 
-// nhân lực
-const nhanLuc = document.querySelector('select[name="nhan_luc"]');
-const soLuong = document.querySelector('select[name="so_luong"]');
+const nhanLuc  = document.querySelector('select[name="nhan_luc"]');
+const soLuong  = document.querySelector('select[name="so_luong"]');
+const taiTrong = document.querySelector('select[name="tai_trong"]');
+
 
 function toggleXeMay() {
   const isXeMay = loaiXe.value === "Xe máy";
@@ -275,6 +275,12 @@ function toggleXeMay() {
     soLuong.disabled = isXeMay;
     soLuong.required = !isXeMay;
     if (isXeMay) soLuong.value = "";
+  }
+    // ✅ tải trọng
+  if (taiTrong) {
+    taiTrong.disabled = isXeMay;
+    taiTrong.required = !isXeMay;
+    if (isXeMay) taiTrong.value = "";
   }
 }
 
@@ -309,5 +315,6 @@ refreshLogic();
 
 </body>
 </html>
+
 
 
