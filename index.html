@@ -236,6 +236,7 @@ loaiYeuCau.addEventListener('change', () => {
 
 <script>
 const loaiXe = document.querySelector('select[name="loai_xe"]');
+const taiTrong = document.querySelector('select[name="tai_trong"]');
 
 // timeline groups
 const disableWhenXeMay = [
@@ -254,17 +255,16 @@ const soLuong = document.querySelector('select[name="so_luong"]');
 function toggleXeMay() {
   const isXeMay = loaiXe.value === "Xe máy";
 
-  // xử lý timeline
+  // timeline
   disableWhenXeMay.forEach(name => {
     const el = document.querySelector(`input[name="${name}"]`);
     if (!el) return;
-
     el.disabled = isXeMay;
     el.required = !isXeMay;
     if (isXeMay) el.value = "";
   });
 
-  // xử lý nhân lực
+  // nhân lực
   if (nhanLuc) {
     nhanLuc.disabled = isXeMay;
     nhanLuc.required = !isXeMay;
@@ -276,7 +276,8 @@ function toggleXeMay() {
     soLuong.required = !isXeMay;
     if (isXeMay) soLuong.value = "";
   }
-    // ✅ tải trọng
+
+  // tải trọng
   if (taiTrong) {
     taiTrong.disabled = isXeMay;
     taiTrong.required = !isXeMay;
@@ -285,35 +286,10 @@ function toggleXeMay() {
 }
 
 loaiXe.addEventListener("change", toggleXeMay);
-
-// chạy ngay khi load form
 toggleXeMay();
 </script>
 
-<script>
-function refreshLogic() {
-  const isNhapKho = document.querySelector('select[name="loai_yeu_cau"]').value === "Nhập kho";
-  const isXeMay  = document.querySelector('select[name="loai_xe"]').value === "Xe máy";
-
-  // ƯU TIÊN XE MÁY
-  if (isXeMay) {
-    toggleXeMay();
-    return;
-  }
-
-  // KHÔNG phải xe máy → xử lý nhập kho
-  toggleNhapKho(isNhapKho);
-}
-
-// gắn lại event
-document.querySelector('select[name="loai_yeu_cau"]').addEventListener("change", refreshLogic);
-document.querySelector('select[name="loai_xe"]').addEventListener("change", refreshLogic);
-
-// chạy khi load
-refreshLogic();
-</script>
 
 </body>
 </html>
-
 
