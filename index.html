@@ -257,20 +257,26 @@ function toggleXe() {
     });
   }
 
- /* ======================
-   2️⃣ BỐC
-   - Nhập kho + Xe máy → KHÔNG CẦN
-   - Nhập kho + Xe tải / cont → CẦN
-   - Xuất kho + xe máy → KHÔNG CẦN
-   - Xuất kho + xe tải / cont → CẦN
+/* ======================
+   BỐC – LOGIC CUỐI (RỨT ĐIỂM)
+   Quy tắc:
+   - Xe máy  → KHÔNG bốc (nhập / xuất đều vậy)
+   - Xe tải / cont → LUÔN bốc
 ====================== */
 if (isXeMay) {
   boc.forEach(name => {
-    setInput(name, { disabled: true, required: false });
+    setInput(name, {
+      disabled: true,
+      required: false,
+      clear: true
+    });
   });
 } else {
   boc.forEach(name => {
-    setInput(name, { disabled: false, required: true });
+    setInput(name, {
+      disabled: false,
+      required: true
+    });
   });
 }
 
