@@ -242,26 +242,37 @@ function toggleXe() {
   const isNhapKho = loaiYeuCau.value === "Nhập kho";
 
   /* ======================
-     1️⃣ ƯU TIÊN NHẬP KHO
+     1️⃣ CHUẨN BỊ + QUÉT
+     ƯU TIÊN NHẬP KHO
   ====================== */
   if (isNhapKho) {
-    // Chuẩn bị + Quét: KHÓA CỨNG
+    // Nhập kho → KHÓA CỨNG
     [...chuanBi, ...quet].forEach(name => {
       setInput(name, { disabled: true, required: false });
     });
   } else {
-    // Xuất kho → xử lý theo loại xe
+    // Xuất kho → theo loại xe
     [...chuanBi, ...quet].forEach(name => {
       setInput(name, { disabled: isXeMay, required: !isXeMay });
     });
   }
 
-  /* ======================
-     2️⃣ BỐC LUÔN DÙNG
-  ====================== */
+ /* ======================
+   2️⃣ BỐC
+   - Nhập kho + Xe máy → KHÔNG CẦN
+   - Nhập kho + Xe tải / cont → CẦN
+   - Xuất kho + xe máy → KHÔNG CẦN
+   - Xuất kho + xe tải / cont → CẦN
+====================== */
+if (isXeMay) {
+  boc.forEach(name => {
+    setInput(name, { disabled: true, required: false });
+  });
+} else {
   boc.forEach(name => {
     setInput(name, { disabled: false, required: true });
   });
+}
 
   /* ======================
      3️⃣ NHÂN LỰC + TẢI TRỌNG
