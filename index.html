@@ -207,23 +207,13 @@ document.getElementById("truckForm").addEventListener("submit",e=>{
 <script>
 const loaiXe = document.querySelector('select[name="loai_xe"]');
 const loaiYeuCau = document.querySelector('select[name="loai_yeu_cau"]');
+const loaiHang = document.querySelector('select[name="loai_hang"]');
 const taiTrong = document.querySelector('select[name="tai_trong"]');
 
 // timeline groups
-const chuanBi = [
-  'bat_dau_chuan_bi',
-  'ket_thuc_chuan_bi'
-];
-
-const quet = [
-  'bat_dau_quet',
-  'ket_thuc_quet'
-];
-
-const boc = [
-  'bat_dau_boc',
-  'ket_thuc_boc'
-];
+const chuanBi = ['bat_dau_chuan_bi','ket_thuc_chuan_bi'];
+const quet = ['bat_dau_quet','ket_thuc_quet'];
+const boc = ['bat_dau_boc','ket_thuc_boc'];
 
 // nhân lực
 const nhanLuc = document.querySelector('select[name="nhan_luc"]');
@@ -240,49 +230,54 @@ function setInput(name, { disabled, required }) {
 function toggleXe() {
   const isXeMay = loaiXe.value === "Xe máy";
   const isNhapKho = loaiYeuCau.value === "Nhập kho";
+  const isXuatKho = loaiYeuCau.value === "Xuất kho";
+  const isNguyenVL = loaiHang.value === "Nguyên vật liệu";
 
-  /* ======================
-     1️⃣ CHUẨN BỊ + QUÉT
-     ƯU TIÊN NHẬP KHO
-  ====================== */
-  if (isNhapKho) {
-    // Nhập kho → KHÓA CỨNG
-    [...chuanBi, ...quet].forEach(name => {
-      setInput(name, { disabled: true, required: false });
-    });
-  } else {
-    // Xuất kho → theo loại xe
-    [...chuanBi, ...quet].forEach(name => {
-      setInput(name, { disabled: isXeMay, required: !isXeMay });
-    });
+  // ======================
+  // 1️⃣ TRƯỜNG HỢP ĐẶC BIỆT: Xuất kho + Nguyên vật liệu + Xe máy → bỏ chuẩn bị + quét
+  // ======================
+  if (isXuatKho && isNguyenVL && isXeMay) {
+    [...chuanBi, ...quet].forEach(name => setInput(name, { disabled: true, required: false }));
+  }
+  // ======================
+  // 2️⃣ Nhập kho → bỏ chuẩn bị + quét
+  // ======================
+  else if (isNhapKho) {
+    [...chuanBi, ...quet].forEach(name => setInput(name, { disabled: true, required: false }));
+  }
+  // ======================
+  // 3️⃣ Xuất kho + Nguyên vật liệu → bỏ quét, giữ chuẩn bị
+  // ======================
+  else if (isXuatKho && isNguyenVL) {
+    quet.forEach(name => setInput(name, { disabled: true, required: false }));
+    chuanBi.forEach(name => setInput(name, { disabled: false, required: true }));
+  }
+  // ======================
+  // 4️⃣ Xuất kho + Xe máy → bỏ chuẩn bị, giữ quét
+  // ======================
+  else if (isXuatKho && isXeMay) {
+    chuanBi.forEach(name => setInput(name, { disabled: true, required: false }));
+    quet.forEach(name => setInput(name, { disabled: false, required: true }));
+  }
+  // ======================
+  // 5️⃣ Các trường hợp còn lại → chuẩn bị + quét theo loại xe
+  // ======================
+  else {
+    [...chuanBi, ...quet].forEach(name => setInput(name, { disabled: isXeMay, required: !isXeMay }));
   }
 
-/* ======================
-   BỐC – LOGIC CUỐI (RỨT ĐIỂM)
-   Quy tắc:
-   - Xe máy  → KHÔNG bốc (nhập / xuất đều vậy)
-   - Xe tải / cont → LUÔN bốc
-====================== */
-if (isXeMay) {
-  boc.forEach(name => {
-    setInput(name, {
-      disabled: true,
-      required: false,
-      clear: true
-    });
-  });
-} else {
-  boc.forEach(name => {
-    setInput(name, {
-      disabled: false,
-      required: true
-    });
-  });
-}
+  // ======================
+  // BỐC
+  // ======================
+  if (isXeMay) {
+    boc.forEach(name => setInput(name, { disabled: true, required: false }));
+  } else {
+    boc.forEach(name => setInput(name, { disabled: false, required: true }));
+  }
 
-  /* ======================
-     3️⃣ NHÂN LỰC + TẢI TRỌNG
-  ====================== */
+  // ======================
+  // NHÂN LỰC + TẢI TRỌNG
+  // ======================
   if (nhanLuc) {
     nhanLuc.disabled = isXeMay;
     nhanLuc.required = !isXeMay;
@@ -302,8 +297,10 @@ if (isXeMay) {
   }
 }
 
+// event listeners
 loaiXe.addEventListener("change", toggleXe);
 loaiYeuCau.addEventListener("change", toggleXe);
+loaiHang.addEventListener("change", toggleXe);
 
 // chạy lần đầu
 toggleXe();
@@ -312,4 +309,3 @@ toggleXe();
 
 </body>
 </html>
-
