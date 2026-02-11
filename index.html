@@ -667,9 +667,12 @@
       const tbody = document.querySelector("#reportTable tbody");
       tbody.innerHTML = "";
 
+      // Helper chuẩn hóa để so sánh không dấu
+      const norm = (s) => (s || "").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d");
+
       filtered.forEach(r => {
-        const slaVal = (r[k_sla] || "").toString().toUpperCase();
-        const isSLA = slaVal.includes("QUA") || slaVal.includes("FAIL");
+        const slaValNorm = norm(r[k_sla]);
+        const isSLA = slaValNorm.includes("qua") || slaValNorm.includes("fail");
         if (isSLA) totalSLA++;
 
         const tr = document.createElement("tr");
