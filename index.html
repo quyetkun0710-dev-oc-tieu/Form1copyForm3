@@ -187,25 +187,60 @@
       border-color: var(--accent-cyan) !important;
     }
 
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
     /* Mobile Adjustments */
     @media (max-width: 768px) {
       .grid-2 {
-        grid-template-columns: 1fr;
-        gap: 12px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+        /* 3 cột trên PC -> 2 cột trên Mobile cho cân đối */
+        gap: 10px;
+      }
+
+      .header-logo img {
+        width: 100px;
       }
 
       .app-header {
-        padding: 20px 15px;
+        padding: 15px 10px;
       }
 
       .card-box {
-        padding: 15px;
+        padding: 12px;
+        margin-bottom: 12px !important;
+      }
+
+      .box-title {
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+      }
+
+      .label,
+      label {
+        font-size: 0.75rem;
+        margin-bottom: 4px;
       }
 
       .input,
       .select select,
       .button {
-        height: 48px !important;
+        height: 40px !important;
+        font-size: 0.85rem !important;
+      }
+
+      .fab {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
       }
     }
 
@@ -454,7 +489,11 @@
       <!-- ⏱ TIMELINE -->
       <div class="card-box">
         <p class="box-title">⏱ TIMELINE</p>
-        <div class="time-item"><label>Xe vào cổng</label><input type="datetime-local" class="input" name="vao_cong">
+        <div class="grid-2">
+          <div class="time-item"><label>Xe vào cổng</label><input type="datetime-local" class="input" name="vao_cong">
+          </div>
+          <div class="time-item"><label>Xe ra cổng</label><input type="datetime-local" class="input" name="ra_cong">
+          </div>
         </div>
         <div class="grid-2 mt-3">
           <div class="time-item"><label>BĐ chuẩn bị</label><input type="datetime-local" class="input"
@@ -473,8 +512,6 @@
           </div>
           <div class="time-item"><label>KT bốc</label><input type="datetime-local" class="input" name="ket_thuc_boc">
           </div>
-        </div>
-        <div class="time-item mt-3"><label>Xe ra cổng</label><input type="datetime-local" class="input" name="ra_cong">
         </div>
       </div>
 
@@ -524,7 +561,7 @@
       <div class="card-box">
         <p class="box-title">📊 BÁO CÁO TỔNG HỢP</p>
 
-        <div class="grid-2">
+        <div class="grid-3">
           <div class="time-item">
             <label>Từ ngày</label>
             <input type="date" class="input" id="rpt_from">
@@ -533,16 +570,16 @@
             <label>Đến ngày</label>
             <input type="date" class="input" id="rpt_to">
           </div>
-        </div>
-
-        <div class="grid-2 mt-3">
-          <div class="select is-fullwidth">
+          <div class="select is-fullwidth mt-5">
             <select id="rpt_type">
-              <option value="">Tất cả (Nhập/Xuất)</option>
+              <option value="">Nhập/Xuất</option>
               <option>Nhập kho</option>
               <option>Xuất kho</option>
             </select>
           </div>
+        </div>
+
+        <div class="grid-1 mt-3">
           <div class="select is-fullwidth">
             <select id="rpt_goods">
               <option value="">Tất cả loại hàng</option>
