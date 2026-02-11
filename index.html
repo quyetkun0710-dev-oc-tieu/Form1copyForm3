@@ -304,6 +304,60 @@
     tr:hover {
       background: rgba(255, 255, 255, 0.05) !important;
     }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 50px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      animation: toastIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), toastOut 0.5s 3.5s forwards;
+      pointer-events: auto;
+    }
+
+    @keyframes toastIn {
+      from {
+        transform: translateY(-100px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes toastOut {
+      from {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      to {
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 
@@ -460,8 +514,10 @@
       </div>
 
       <button class="button is-primary is-large is-fullwidth">🚚 GỬI DỮ LIỆU</button>
-      <p id="status" class="has-text-centered mt-2"></p>
     </form>
+
+    <!-- Container cho thông báo nổi -->
+    <div id="toastContainer" class="toast-container"></div>
 
     <!-- 📊 TAG BÁO CÁO -->
     <div id="reportTag" class="hidden">
@@ -700,10 +756,18 @@
       i.addEventListener("focus", () => { if (!i.value) i.value = now(); });
     });
 
+    function showToast(msg, icon = 'ℹ️') {
+      const container = document.getElementById("toastContainer");
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.innerHTML = `<span>${icon}</span> <span>${msg}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 4000);
+    }
+
     document.getElementById("truckForm").addEventListener("submit", e => {
       e.preventDefault();
-      const status = document.getElementById("status");
-      status.innerText = "⏳ Đang gửi...";
+      showToast("⏳ Đang gửi dữ liệu...", "🚀");
       const form = e.target;
       const fd = new FormData(form);
 
@@ -720,8 +784,12 @@
       function send(data) {
         fetch(WEB_APP_URL, { method: "POST", body: data })
           .then(r => r.text())
-          .then(t => { status.innerText = t; form.reset(); })
-          .catch(err => status.innerText = "❌ " + err);
+          .then(t => {
+            showToast(t, "✅");
+            form.reset();
+            toggleXe(); // Reset luôn các trường ẩn hiện
+          })
+          .catch(err => showToast("Lỗi: " + err, "❌"));
       }
     });
   </script>
