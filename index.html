@@ -1,312 +1,831 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-<meta charset="UTF-8">
-<title>WAREHOUSE RAPIDO ASIA</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 
-<style>
-:root{
-  --input-h: clamp(32px, 6vw, 40px);
-  --font-sm: clamp(12px, 3.2vw, 14px);
-  --font-xs: clamp(11px, 3vw, 13px);
-}
-body{background:#22c7fe;font-size:var(--font-sm);}
-.app-header{background:linear-gradient(135deg,#ff1a1a,#ff0000),
-radial-gradient(circle at top right,rgba(255,255,255,.35),transparent 60%);
-color:#fff;border-radius:18px;padding:18px;margin-bottom:16px;}
-.header-inner{display:flex;align-items:center;gap:14px;}
-.header-logo{background:#fff;padding:8px 12px;border-radius:14px;}
-.header-logo img{height:42px;max-width:130px;}
-.card-box{background:#aa9bea;border-radius:14px;padding:14px;margin-bottom:14px;}
-.label{font-size:var(--font-xs);}
-.input,.select,.select select,.textarea{width:100%;height:var(--input-h);}
-.textarea{min-height:80px;}
-.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;}
-.grid-1{margin-top:10px;}
-.time-item{background:#8aca3b;border-radius:12px;padding:6px;}
-.button.is-large{height:48px;border-radius:14px;}
-.header-center{text-align:center;flex-direction:column;}
-</style>
+<head>
+  <meta charset="UTF-8">
+  <title>WAREHOUSE RAPIDO ASIA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+    :root {
+      --primary-red: #ff1a1a;
+      --accent-cyan: #00ffcc;
+      --bg-glass: rgba(255, 255, 255, 0.1);
+      --border-glass: rgba(255, 255, 255, 0.2);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      color: #ffffff;
+      background: #1a1a1a;
+      /* Fallback */
+      overflow-x: hidden;
+    }
+
+    /* Fixed Background Layer */
+    #fixed-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+        url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=2000');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    .app-header {
+      background: rgba(255, 26, 26, 0.15);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-glass);
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 20px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .header-logo {
+      background: #ffffff;
+      padding: 10px 15px;
+      border-radius: 12px;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    .header-logo img {
+      height: 40px;
+      display: block;
+    }
+
+    .card-box {
+      background: var(--bg-glass);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid var(--border-glass);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .card-box:hover {
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .box-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Input & Select Styling */
+    .input,
+    .select select,
+    .textarea {
+      background: rgba(255, 255, 255, 0.08) !important;
+      border: 1px solid var(--border-glass) !important;
+      border-radius: 12px !important;
+      color: #ffffff !important;
+      padding-left: 15px !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .input::placeholder,
+    .textarea::placeholder {
+      color: rgba(255, 255, 255, 0.4) !important;
+    }
+
+    .input:focus,
+    .select select:focus,
+    .textarea:focus {
+      background: rgba(255, 255, 255, 0.12) !important;
+      border-color: var(--accent-cyan) !important;
+      box-shadow: 0 0 15px rgba(0, 255, 204, 0.3) !important;
+      outline: none !important;
+    }
+
+    .select:not(.is-multiple):not(.is-loading)::after {
+      border-color: var(--accent-cyan) !important;
+    }
+
+    .select select option {
+      background: #2b2b2b !important;
+      color: #fff !important;
+    }
+
+    /* Timeline Labels */
+    .time-item {
+      background: rgba(138, 202, 59, 0.15);
+      border: 1px solid rgba(138, 202, 59, 0.3);
+      padding: 12px;
+      border-radius: 15px;
+    }
+
+    .time-item label {
+      color: #8aca3b;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: block;
+      font-size: 0.85rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    /* Submit Button */
+    .button.is-primary {
+      background: linear-gradient(135deg, #ff1a1a, #cc0000) !important;
+      border: none !important;
+      border-radius: 15px !important;
+      height: 54px !important;
+      font-weight: 700 !important;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 10px 20px rgba(255, 26, 26, 0.3) !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .button.is-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(255, 26, 26, 0.4) !important;
+    }
+
+    .button.is-primary:active {
+      transform: translateY(0);
+    }
+
+    /* File Input */
+    .file-cta {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border: 1px dashed var(--border-glass) !important;
+      border-radius: 15px !important;
+      color: #fff !important;
+      transition: 0.3s !important;
+    }
+
+    .file-label:hover .file-cta {
+      background: rgba(255, 255, 255, 0.1) !important;
+      border-color: var(--accent-cyan) !important;
+    }
+
+    /* Mobile Adjustments */
+    @media (max-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .app-header {
+        padding: 20px 15px;
+      }
+
+      .card-box {
+        padding: 15px;
+      }
+
+      .input,
+      .select select,
+      .button {
+        height: 48px !important;
+      }
+    }
+
+    /* Floating Action Buttons */
+    .fab {
+      width: 60px;
+      height: 60px;
+      border-radius: 50% !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    .fab:hover {
+      transform: scale(1.1) rotate(5deg) translateY(-5px) !important;
+      animation-play-state: paused;
+    }
+
+    .fab-report {
+      background: linear-gradient(135deg, #00ffcc, #0099ff) !important;
+      color: #000 !important;
+    }
+
+    .fab-back {
+      background: linear-gradient(135deg, #ff1a1a, #bd0000) !important;
+      color: #fff !important;
+      position: fixed !important;
+      right: 25px !important;
+      /* Changed from left: 25px to right: 25px */
+      bottom: 25px !important;
+      z-index: 1001 !important;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Table & Stats in Report */
+    .stat-card {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 15px;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+
+    .stat-val {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+    }
+
+    .table-container {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 15px;
+      padding: 5px;
+    }
+
+    .table {
+      background: transparent !important;
+      color: #fff !important;
+      font-size: 0.85rem;
+    }
+
+    .table th {
+      color: var(--accent-cyan) !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+      white-space: nowrap;
+    }
+
+    .table td {
+      border-color: rgba(255, 255, 255, 0.05) !important;
+      vertical-align: middle !important;
+    }
+
+    tr:hover {
+      background: rgba(255, 255, 255, 0.05) !important;
+    }
+  </style>
 </head>
 
 <body class="p-2">
-<div class="container" style="max-width:1100px">
+  <div id="fixed-bg"></div>
+  <div class="container" style="max-width:800px">
 
-<!-- HEADER -->
-<div class="app-header">
-  <div class="header-inner header-center">
-    <div class="header-logo">
-      <img src="https://drive.google.com/thumbnail?id=1qSU6HSj47xELMy05XI67qyrLyvAkggWZ&sz=w500">
+    <!-- HEADER -->
+    <div class="app-header">
+      <div class="header-logo">
+        <img src="https://drive.google.com/thumbnail?id=1qSU6HSj47xELMy05XI67qyrLyvAkggWZ&sz=w500">
+      </div>
+      <h1 class="title is-4 has-text-white mt-1 mb-0">WAREHOUSE RAPIDO ASIA</h1>
+      <p class="is-size-7 has-text-grey-lighter">Leadtime - Inbound - Outbound</p>
     </div>
-    <h1 class="title is-5 has-text-white">WAREHOUSE RAPIDO ASIA</h1>
-    <p class="is-size-7">Leadtime - Inbound - Outbound</p>
+
+    <form id="truckForm">
+
+      <!-- 🚛 THÔNG TIN XE -->
+      <div class="card-box">
+        <p class="box-title">🚛 THÔNG TIN XE</p>
+        <div class="grid-2">
+          <input class="input" name="bien_so_xe" placeholder="Biển số xe *" required>
+          <div class="select is-fullwidth">
+            <select name="ncc" required>
+              <option value="">Nhà cung cấp *</option>
+              <option>Q2C</option>
+              <option>Sơn Hùng</option>
+              <option>VT89</option>
+              <option>Tiến Lợi</option>
+              <option>CBT</option>
+              <option>KH Tự lấy</option>
+              <option>Đơn vị khác</option>
+              <option>NCC đến giao</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2 mt-2">
+          <div class="select is-fullwidth">
+            <select name="loai_hang" required>
+              <option value="">Loại hàng *</option>
+              <option>Thành phẩm</option>
+              <option>Nguyên vật liệu</option>
+            </select>
+          </div>
+          <div class="select is-fullwidth">
+            <select name="loai_yeu_cau" required>
+              <option value="">Loại yêu cầu *</option>
+              <option>Nhập kho</option>
+              <option>Xuất kho</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-1">
+          <div class="select is-fullwidth">
+            <select name="kho_hang" required>
+              <option value="">Kho hàng *</option>
+              <option>Kho thành phẩm 1</option>
+              <option>Kho thành phẩm 2</option>
+              <option>Kho nguyên liệu chung</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2 mt-2">
+          <div class="select is-fullwidth">
+            <select name="loai_xe" required>
+              <option value="">Loại xe *</option>
+              <option>Xe tải</option>
+              <option>Container</option>
+              <option>Xe máy</option>
+            </select>
+          </div>
+          <div class="select is-fullwidth">
+            <select name="tai_trong" required>
+              <option value="">Tải trọng *</option>
+              <option>1.4T</option>
+              <option>2T</option>
+              <option>2.5T</option>
+              <option>3.5T</option>
+              <option>5T</option>
+              <option>7T</option>
+              <option>8T</option>
+              <option>9T</option>
+              <option>Cont 20</option>
+              <option>Cont 40</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⏱ TIMELINE -->
+      <div class="card-box">
+        <p class="box-title">⏱ TIMELINE</p>
+        <div class="time-item"><label>Xe vào cổng</label><input type="datetime-local" class="input" name="vao_cong">
+        </div>
+        <div class="grid-2 mt-3">
+          <div class="time-item"><label>BĐ chuẩn bị</label><input type="datetime-local" class="input"
+              name="bat_dau_chuan_bi"></div>
+          <div class="time-item"><label>KT chuẩn bị</label><input type="datetime-local" class="input"
+              name="ket_thuc_chuan_bi"></div>
+        </div>
+        <div class="grid-2 mt-3">
+          <div class="time-item"><label>BĐ quét</label><input type="datetime-local" class="input" name="bat_dau_quet">
+          </div>
+          <div class="time-item"><label>KT quét</label><input type="datetime-local" class="input" name="ket_thuc_quet">
+          </div>
+        </div>
+        <div class="grid-2 mt-3">
+          <div class="time-item"><label>BĐ bốc</label><input type="datetime-local" class="input" name="bat_dau_boc">
+          </div>
+          <div class="time-item"><label>KT bốc</label><input type="datetime-local" class="input" name="ket_thuc_boc">
+          </div>
+        </div>
+        <div class="time-item mt-3"><label>Xe ra cổng</label><input type="datetime-local" class="input" name="ra_cong">
+        </div>
+      </div>
+
+      <!-- 👷 NHÂN LỰC -->
+      <div class="card-box">
+        <p class="box-title">👷 NHÂN LỰC</p>
+        <div class="grid-2">
+          <div class="select is-fullwidth">
+            <select name="nhan_luc" required>
+              <option value="">Hình thức *</option>
+              <option>Tự bốc</option>
+              <option>Bốc xếp ngoài</option>
+            </select>
+          </div>
+          <div class="select is-fullwidth">
+            <select name="so_luong">
+              <option value="1">1 người</option>
+              <option value="2">2 người</option>
+              <option value="3">3 người</option>
+              <option value="4">4 người</option>
+              <option value="5">5 người</option>
+            </select>
+          </div>
+        </div>
+        <textarea class="textarea mt-3" name="ghi_chu" placeholder="Ghi chú"></textarea>
+      </div>
+
+      <!-- 📎 CHỨNG TỪ -->
+      <div class="card-box">
+        <p class="box-title">📎 CHỨNG TỪ</p>
+        <div class="file is-boxed is-fullwidth">
+          <label class="file-label">
+            <input class="file-input" type="file" name="chung_tu" accept="image/*" capture="environment">
+            <span class="file-cta has-text-centered">📷 Chụp ảnh / chọn ảnh chứng từ</span>
+          </label>
+        </div>
+      </div>
+
+      <button class="button is-primary is-large is-fullwidth">🚚 GỬI DỮ LIỆU</button>
+      <p id="status" class="has-text-centered mt-2"></p>
+    </form>
+
+    <!-- 📊 TAG BÁO CÁO -->
+    <div id="reportTag" class="hidden">
+      <div class="card-box">
+        <p class="box-title">📊 BÁO CÁO TỔNG HỢP</p>
+
+        <div class="grid-2">
+          <div class="time-item">
+            <label>Từ ngày</label>
+            <input type="date" class="input" id="rpt_from">
+          </div>
+          <div class="time-item">
+            <label>Đến ngày</label>
+            <input type="date" class="input" id="rpt_to">
+          </div>
+        </div>
+
+        <div class="grid-2 mt-3">
+          <div class="select is-fullwidth">
+            <select id="rpt_type">
+              <option value="">Tất cả (Nhập/Xuất)</option>
+              <option>Nhập kho</option>
+              <option>Xuất kho</option>
+            </select>
+          </div>
+          <div class="select is-fullwidth">
+            <select id="rpt_goods">
+              <option value="">Tất cả loại hàng</option>
+              <option>Thành phẩm</option>
+              <option>Nguyên vật liệu</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="button is-primary is-fullwidth mt-4" onclick="fetchReport()">
+          🔍 LẤY DỮ LIỆU BÁO CÁO
+        </button>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid-2 mb-4" id="rpt_stats">
+        <div class="stat-card">
+          <p class="is-size-7">Tổng lượt xe</p>
+          <p class="stat-val" id="stat_total">0</p>
+        </div>
+        <div class="stat-card">
+          <p class="is-size-7">Quá SLA (>3h)</p>
+          <p class="stat-val" id="stat_sla" style="color: var(--primary-red);">0</p>
+        </div>
+      </div>
+
+      <!-- Table Result -->
+      <div class="card-box">
+        <div class="table-container" style="overflow-x: auto;">
+          <table class="table is-fullwidth" id="reportTable">
+            <thead>
+              <tr>
+                <th>Biển số</th>
+                <th>Yêu cầu</th>
+                <th>Vào cổng</th>
+                <th>Ra cổng</th>
+                <th>Leadtime (phút)</th>
+                <th>SLA</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
   </div>
-</div>
-
-<form id="truckForm">
-
-<!-- 🚛 THÔNG TIN XE -->
-<div class="card-box">
-<p class="has-text-weight-semibold">🚛 THÔNG TIN XE</p>
-<div class="grid-2">
-  <input class="input" name="bien_so_xe" placeholder="Biển số xe *" required>
-  <div class="select is-fullwidth">
-    <select name="ncc" required>
-      <option value="">Nhà cung cấp *</option>
-      <option>Q2C</option>
-      <option>Sơn Hùng</option>
-      <option>VT89</option>
-      <option>Tiến Lợi</option>
-      <option>CBT</option>
-      <option>KH Tự lấy</option>
-      <option>Đơn vị khác</option>
-      <option>NCC đến giao</option>
-    </select>
   </div>
-</div>
 
-<div class="grid-2 mt-2">
-  <div class="select is-fullwidth">
-    <select name="loai_hang" required>
-      <option value="">Loại hàng *</option>
-      <option>Thành phẩm</option><option>Nguyên vật liệu</option>
-    </select>
-  </div>
-  <div class="select is-fullwidth">
-    <select name="loai_yeu_cau" required>
-      <option value="">Loại yêu cầu *</option>
-      <option>Nhập kho</option><option>Xuất kho</option>
-    </select>
-  </div>
-</div>
+  <!-- FLOATING BUTTONS (Positioned at bottom-right) -->
+  <div id="btn-report" class="fab fab-report" style="position: fixed; bottom: 25px; right: 25px; z-index: 1001;"
+    onclick="toggleView('report')" title="Xem báo cáo">📊</div>
+  <div id="btn-back" class="fab fab-back hidden" style="position: fixed; bottom: 25px; right: 25px; z-index: 1001;"
+    onclick="toggleView('form')" title="Quay lại">⬅</div>
 
-<div class="grid-1">
-  <div class="select is-fullwidth">
-    <select name="kho_hang" required>
-      <option value="">Kho hàng *</option>
-      <option>Kho thành phẩm 1</option>
-      <option>Kho thành phẩm 2</option>
-      <option>Kho nguyên liệu chung</option>
-    </select>
-  </div>
-</div>
+  <script>
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwTvKwAWO-TiJotXzWpH7aXOqKSa8iqysAmo0GOXLXySVtQdKWqVM8oDwf4ts7G7o6Oug/exec";
 
-<div class="grid-2 mt-2">
-  <div class="select is-fullwidth">
-    <select name="loai_xe" required>
-      <option value="">Loại xe *</option>
-      <option>Xe tải</option><option>Container</option><option>Xe máy</option>
-    </select>
-  </div>
-  <div class="select is-fullwidth">
-    <select name="tai_trong" required>
-      <option value="">Tải trọng *</option>
-      <option>1.4T</option><option>2T</option><option>2.5T</option>
-      <option>3.5T</option><option>5T</option><option>7T</option>
-      <option>8T</option><option>9T</option>
-      <option>Cont 20</option><option>Cont 40</option>
-    </select>
-  </div>
-</div>
-</div>
+    // --- NAVIGATION LOGIC ---
+    function toggleView(view) {
+      const form = document.getElementById("truckForm");
+      const report = document.getElementById("reportTag");
+      const btnReport = document.getElementById("btn-report");
+      const btnBack = document.getElementById("btn-back");
 
-<!-- ⏱ TIMELINE -->
-<div class="card-box">
-<p class="has-text-weight-semibold">⏱ TIMELINE</p>
-<div class="time-item"><label>Xe vào cổng</label><input type="datetime-local" class="input" name="vao_cong"></div>
-<div class="grid-2 mt-2">
-  <div class="time-item"><label>BĐ chuẩn bị</label><input type="datetime-local" class="input" name="bat_dau_chuan_bi"></div>
-  <div class="time-item"><label>KT chuẩn bị</label><input type="datetime-local" class="input" name="ket_thuc_chuan_bi"></div>
-</div>
-<div class="grid-2 mt-2">
-  <div class="time-item"><label>BĐ quét</label><input type="datetime-local" class="input" name="bat_dau_quet"></div>
-  <div class="time-item"><label>KT quét</label><input type="datetime-local" class="input" name="ket_thuc_quet"></div>
-</div>
-<div class="grid-2 mt-2">
-  <div class="time-item"><label>BĐ bốc</label><input type="datetime-local" class="input" name="bat_dau_boc"></div>
-  <div class="time-item"><label>KT bốc</label><input type="datetime-local" class="input" name="ket_thuc_boc"></div>
-</div>
-<div class="time-item mt-2"><label>Xe ra cổng</label><input type="datetime-local" class="input" name="ra_cong"></div>
-</div>
+      if (view === "report") {
+        form.classList.add("hidden");
+        report.classList.remove("hidden");
+        btnReport.classList.add("hidden");
+        btnBack.classList.remove("hidden");
 
-<!-- 👷 NHÂN LỰC -->
-<div class="card-box">
-<p class="has-text-weight-semibold">👷 NHÂN LỰC</p>
-<div class="grid-2">
-  <div class="select is-fullwidth">
-    <select name="nhan_luc" required>
-      <option value="">Hình thức *</option>
-      <option>Tự bốc</option><option>Bốc xếp ngoài</option>
-    </select>
-  </div>
-  <div class="select is-fullwidth">
-    <select name="so_luong">
-      <option value="1">1 người</option>
-      <option value="2">2 người</option>
-      <option value="3">3 người</option>
-      <option value="4">4 người</option>
-      <option value="5">5 người</option>
-    </select>
-  </div>
-</div>
-<textarea class="textarea mt-2" name="ghi_chu" placeholder="Ghi chú"></textarea>
-</div>
+        // Auto set dải ngày nếu còn trống (Hôm nay)
+        const today = new Date().toISOString().split('T')[0];
+        if (!document.getElementById("rpt_from").value) document.getElementById("rpt_from").value = today;
+        if (!document.getElementById("rpt_to").value) document.getElementById("rpt_to").value = today;
+      } else {
+        form.classList.remove("hidden");
+        report.classList.add("hidden");
+        btnReport.classList.remove("hidden");
+        btnBack.classList.add("hidden");
+      }
+    }
 
-<!-- 📎 CHỨNG TỪ -->
-<div class="card-box">
-<p class="has-text-weight-semibold">📎 CHỨNG TỪ</p>
-<div class="file is-boxed is-fullwidth">
-<label class="file-label">
-<input class="file-input" type="file" name="chung_tu" accept="image/*" capture="environment">
-<span class="file-cta">📷 Chụp ảnh / chọn ảnh</span>
-</label>
-</div>
-</div>
+    // --- REPORT LOGIC ---
+    async function fetchReport() {
+      const btn = document.querySelector("#reportTag .button");
+      btn.innerText = "⏳ Đang tải dữ liệu...";
+      btn.disabled = true;
 
-<button class="button is-primary is-large is-fullwidth">🚚 GỬI DỮ LIỆU</button>
-<p id="status" class="has-text-centered mt-2"></p>
-</form>
-</div>
+      try {
+        const res = await fetch(WEB_APP_URL);
+        if (!res.ok) {
+          throw new Error(`HTTP Error! Status: ${res.status}`);
+        }
+        const json = await res.json();
 
-<script>
-const WEB_APP_URL="https://script.google.com/macros/s/AKfycbyLMzP3sTmgZ3Lb9yJg9aiCKnWtqbkEEukdMuaFbRcPEp-iPXvT258IXIgLgrLQ7x_kQw/exec";
+        if (json.status === "success") {
+          renderReport(json.data);
+        } else {
+          alert("Lỗi từ Apps Script: " + json.message);
+        }
+      } catch (err) {
+        alert("Lỗi kết nối (Network Error): " + err);
+      } finally {
+        btn.innerText = "🔍 LẤY DỮ LIỆU BÁO CÁO";
+        btn.disabled = false;
+      }
+    }
 
-function now(){return new Date().toISOString().slice(0,16);}
-document.querySelectorAll('input[type="datetime-local"]').forEach(i=>{
-  i.addEventListener("focus",()=>{if(!i.value)i.value=now();});
-});
+    function renderReport(data) {
+      if (!data || data.length === 0) {
+        document.querySelector("#reportTable tbody").innerHTML = `<tr><td colspan="6" class="has-text-centered p-5">📭 Không có dữ liệu phản hồi từ Server</td></tr>`;
+        return;
+      }
 
-document.getElementById("truckForm").addEventListener("submit",e=>{
-  e.preventDefault();
-  const status=document.getElementById("status");
-  status.innerText="⏳ Đang gửi...";
-  const form=e.target;
-  const fd=new FormData(form);
+      console.log("Mẫu dữ liệu dòng 1:", data[0]);
 
-  const file=form.querySelector('[name="chung_tu"]');
-  if(file.files.length){
-    const r=new FileReader();
-    r.onload=()=>{fd.set("chung_tu",r.result.split(",")[1]);send(fd);}
-    r.readAsDataURL(file.files[0]);
-  }else{
-    fd.set("chung_tu","");
-    send(fd);
-  }
+      // Tìm khóa linh hoạt dựa trên từ khóa
+      const findKey = (row, keywords) => {
+        const keys = Object.keys(row);
+        return keys.find(k => keywords.some(kw => k.toLowerCase().includes(kw))) || "";
+      };
 
-  function send(data){
-    fetch(WEB_APP_URL,{method:"POST",body:data})
-    .then(r=>r.text())
-    .then(t=>{status.innerText=t;form.reset();})
-    .catch(err=>status.innerText="❌ "+err);
-  }
-});
-</script>
+      const k_bienxe = findKey(data[0], ["bien_so", "bien_xe", "plate"]);
+      const k_vao = findKey(data[0], ["vao_cong", "vao", "checkin"]);
+      const k_ra = findKey(data[0], ["ra_cong", "ra", "checkout"]);
+      const k_yeucau = findKey(data[0], ["loai_yeu_cau", "yeu_cau", "request"]);
+      const k_loai_hang = findKey(data[0], ["loai_hang", "hang", "goods"]);
+      const k_leadtime = findKey(data[0], ["leadtime", "thoi_gian_xl"]);
+      const k_sla = findKey(data[0], ["sla", "trang_thai_sla"]);
 
-<script>
-const loaiXe = document.querySelector('select[name="loai_xe"]');
-const loaiYeuCau = document.querySelector('select[name="loai_yeu_cau"]');
-const loaiHang = document.querySelector('select[name="loai_hang"]');
-const taiTrong = document.querySelector('select[name="tai_trong"]');
+      const from = document.getElementById("rpt_from").value;
+      const to = document.getElementById("rpt_to").value;
+      const type = document.getElementById("rpt_type").value;
+      const goods = document.getElementById("rpt_goods").value;
 
-// timeline groups
-const chuanBi = ['bat_dau_chuan_bi','ket_thuc_chuan_bi'];
-const quet = ['bat_dau_quet','ket_thuc_quet'];
-const boc = ['bat_dau_boc','ket_thuc_boc'];
+      // Helper: Chuyển mọi định dạng ngày sang "YYYY-MM-DD" để so sánh
+      const parseSheetDate = (str) => {
+        if (!str) return "";
+        try {
+          const datePart = str.split(' ')[0];
+          // Nếu đã chuẩn YYYY-MM-DD thì trả về luôn
+          if (datePart.match(/^\d{4}-\d{2}-\d{2}$/)) return datePart;
 
-// nhân lực
-const nhanLuc = document.querySelector('select[name="nhan_luc"]');
-const soLuong = document.querySelector('select[name="so_luong"]');
+          const d = datePart.split(/[/|-]/);
+          if (d.length !== 3) return "";
 
-function setInput(name, { disabled, required }) {
-  const el = document.querySelector(`input[name="${name}"]`);
-  if (!el) return;
-  el.disabled = disabled;
-  el.required = required;
-  if (disabled) el.value = "";
-}
+          let day, month, year;
+          if (d[0].length === 4) { // YYYY/MM/DD
+            year = d[0];
+            month = d[1].padStart(2, '0');
+            day = d[2].padStart(2, '0');
+          } else { // DD/MM/YYYY
+            day = d[0].padStart(2, '0');
+            month = d[1].padStart(2, '0');
+            year = d[2];
+            if (year.length === 2) year = "20" + year;
+          }
+          return `${year}-${month}-${day}`;
+        } catch (e) {
+          return "";
+        }
+      };
 
-function toggleXe() {
-  const isXeMay = loaiXe.value === "Xe máy";
-  const isNhapKho = loaiYeuCau.value === "Nhập kho";
-  const isXuatKho = loaiYeuCau.value === "Xuất kho";
-  const isNguyenVL = loaiHang.value === "Nguyên vật liệu";
+      // Filter
+      const filtered = data.filter(r => {
+        const vaoDisplay = r[k_vao] || "";
+        const vaoCompare = parseSheetDate(vaoDisplay);
 
-  // ======================
-  // 1️⃣ TRƯỜNG HỢP ĐẶC BIỆT: Xuất kho + Nguyên vật liệu + Xe máy → bỏ chuẩn bị + quét
-  // ======================
-  if (isXuatKho && isNguyenVL && isXeMay) {
-    [...chuanBi, ...quet].forEach(name => setInput(name, { disabled: true, required: false }));
-  }
-  // ======================
-  // 2️⃣ Nhập kho → bỏ chuẩn bị + quét
-  // ======================
-  else if (isNhapKho) {
-    [...chuanBi, ...quet].forEach(name => setInput(name, { disabled: true, required: false }));
-  }
-  // ======================
-  // 3️⃣ Xuất kho + Nguyên vật liệu → bỏ quét, giữ chuẩn bị
-  // ======================
-  else if (isXuatKho && isNguyenVL) {
-    quet.forEach(name => setInput(name, { disabled: true, required: false }));
-    chuanBi.forEach(name => setInput(name, { disabled: false, required: true }));
-  }
-  // ======================
-  // 4️⃣ Xuất kho + Xe máy → bỏ chuẩn bị, giữ quét
-  // ======================
-  else if (isXuatKho && isXeMay) {
-    chuanBi.forEach(name => setInput(name, { disabled: true, required: false }));
-    quet.forEach(name => setInput(name, { disabled: false, required: true }));
-  }
-  // ======================
-  // 5️⃣ Các trường hợp còn lại → chuẩn bị + quét theo loại xe
-  // ======================
-  else {
-    [...chuanBi, ...quet].forEach(name => setInput(name, { disabled: isXeMay, required: !isXeMay }));
-  }
+        const matchDate = (!from || vaoCompare >= from) && (!to || vaoCompare <= to);
+        const matchType = !type || (r[k_yeucau] || "").toString() === type;
+        const matchGoods = !goods || (r[k_loai_hang] || "").toString() === goods;
+        return matchDate && matchType && matchGoods;
+      });
 
-  // ======================
-  // BỐC
-  // ======================
-  if (isXeMay) {
-    boc.forEach(name => setInput(name, { disabled: true, required: false }));
-  } else {
-    boc.forEach(name => setInput(name, { disabled: false, required: true }));
-  }
+      // Stats
+      let totalSLA = 0;
+      const tbody = document.querySelector("#reportTable tbody");
+      tbody.innerHTML = "";
 
-  // ======================
-  // NHÂN LỰC + TẢI TRỌNG
-  // ======================
-  if (nhanLuc) {
-    nhanLuc.disabled = isXeMay;
-    nhanLuc.required = !isXeMay;
-    if (isXeMay) nhanLuc.value = "";
-  }
+      filtered.forEach(r => {
+        const slaVal = (r[k_sla] || "").toString().toUpperCase();
+        const isSLA = slaVal.includes("QUA") || slaVal.includes("FAIL");
+        if (isSLA) totalSLA++;
 
-  if (soLuong) {
-    soLuong.disabled = isXeMay;
-    soLuong.required = !isXeMay;
-    if (isXeMay) soLuong.value = "";
-  }
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td class="has-text-weight-bold">${r[k_bienxe] || ""}</td>
+          <td>${r[k_yeucau] || ""}</td>
+          <td class="is-size-7">${r[k_vao] || ""}</td>
+          <td class="is-size-7">${r[k_ra] || ""}</td>
+          <td class="has-text-centered">${r[k_leadtime] || ""}</td>
+          <td class="${isSLA ? 'has-text-danger has-text-weight-bold' : 'has-text-success'}">${r[k_sla] || ""}</td>
+        `;
+        tbody.appendChild(tr);
+      });
 
-  if (taiTrong) {
-    taiTrong.disabled = isXeMay;
-    taiTrong.required = !isXeMay;
-    if (isXeMay) taiTrong.value = "";
-  }
-}
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="has-text-centered p-5 has-text-grey">📭 Không tìm thấy dữ liệu nào phù hợp</td></tr>`;
+      }
 
-// event listeners
-loaiXe.addEventListener("change", toggleXe);
-loaiYeuCau.addEventListener("change", toggleXe);
-loaiHang.addEventListener("change", toggleXe);
+      document.getElementById("stat_total").innerText = filtered.length;
+      document.getElementById("stat_sla").innerText = totalSLA;
+    }
 
-// chạy lần đầu
-toggleXe();
-</script>
+    function now() { return new Date().toISOString().slice(0, 16); }
+    document.querySelectorAll('input[type="datetime-local"]').forEach(i => {
+      i.addEventListener("focus", () => { if (!i.value) i.value = now(); });
+    });
+
+    document.getElementById("truckForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const status = document.getElementById("status");
+      status.innerText = "⏳ Đang gửi...";
+      const form = e.target;
+      const fd = new FormData(form);
+
+      const file = form.querySelector('[name="chung_tu"]');
+      if (file.files.length) {
+        const r = new FileReader();
+        r.onload = () => { fd.set("chung_tu", r.result.split(",")[1]); send(fd); }
+        r.readAsDataURL(file.files[0]);
+      } else {
+        fd.set("chung_tu", "");
+        send(fd);
+      }
+
+      function send(data) {
+        fetch(WEB_APP_URL, { method: "POST", body: data })
+          .then(r => r.text())
+          .then(t => { status.innerText = t; form.reset(); })
+          .catch(err => status.innerText = "❌ " + err);
+      }
+    });
+  </script>
+
+  <script>
+    const loaiXe = document.querySelector('select[name="loai_xe"]');
+    const loaiYeuCau = document.querySelector('select[name="loai_yeu_cau"]');
+    const loaiHang = document.querySelector('select[name="loai_hang"]');
+    const taiTrong = document.querySelector('select[name="tai_trong"]');
+
+    // timeline groups
+    const chuanBi = ['bat_dau_chuan_bi', 'ket_thuc_chuan_bi'];
+    const quet = ['bat_dau_quet', 'ket_thuc_quet'];
+    const boc = ['bat_dau_boc', 'ket_thuc_boc'];
+
+    // nhân lực
+    const nhanLuc = document.querySelector('select[name="nhan_luc"]');
+    const soLuong = document.querySelector('select[name="so_luong"]');
+
+    function setInput(name, { disabled, required }) {
+      const el = document.querySelector(`input[name="${name}"]`);
+      if (!el) return;
+      el.disabled = disabled;
+      el.required = required;
+      if (disabled) el.value = "";
+    }
+
+    function toggleXe() {
+      const isXeMay = loaiXe.value === "Xe máy";
+      const isNhapKho = loaiYeuCau.value === "Nhập kho";
+      const isXuatKho = loaiYeuCau.value === "Xuất kho";
+      const isNguyenVL = loaiHang.value === "Nguyên vật liệu";
+
+      // ======================
+      // 1️⃣ TRƯỜNG HỢP ĐẶC BIỆT: Xuất kho + Nguyên vật liệu + Xe máy → bỏ chuẩn bị + quét
+      // ======================
+      if (isXuatKho && isNguyenVL && isXeMay) {
+        [...chuanBi, ...quet].forEach(name => setInput(name, { disabled: true, required: false }));
+      }
+      // ======================
+      // 2️⃣ Nhập kho → bỏ chuẩn bị + quét
+      // ======================
+      else if (isNhapKho) {
+        [...chuanBi, ...quet].forEach(name => setInput(name, { disabled: true, required: false }));
+      }
+      // ======================
+      // 3️⃣ Xuất kho + Nguyên vật liệu → bỏ quét, giữ chuẩn bị
+      // ======================
+      else if (isXuatKho && isNguyenVL) {
+        quet.forEach(name => setInput(name, { disabled: true, required: false }));
+        chuanBi.forEach(name => setInput(name, { disabled: false, required: true }));
+      }
+      // ======================
+      // 4️⃣ Xuất kho + Xe máy → bỏ chuẩn bị, giữ quét
+      // ======================
+      else if (isXuatKho && isXeMay) {
+        chuanBi.forEach(name => setInput(name, { disabled: true, required: false }));
+        quet.forEach(name => setInput(name, { disabled: false, required: true }));
+      }
+      // ======================
+      // 5️⃣ Các trường hợp còn lại → chuẩn bị + quét theo loại xe
+      // ======================
+      else {
+        [...chuanBi, ...quet].forEach(name => setInput(name, { disabled: isXeMay, required: !isXeMay }));
+      }
+
+      // ======================
+      // BỐC
+      // ======================
+      if (isXeMay) {
+        boc.forEach(name => setInput(name, { disabled: true, required: false }));
+      } else {
+        boc.forEach(name => setInput(name, { disabled: false, required: true }));
+      }
+
+      // ======================
+      // NHÂN LỰC + TẢI TRỌNG
+      // ======================
+      if (nhanLuc) {
+        nhanLuc.disabled = isXeMay;
+        nhanLuc.required = !isXeMay;
+        if (isXeMay) nhanLuc.value = "";
+      }
+
+      if (soLuong) {
+        soLuong.disabled = isXeMay;
+        soLuong.required = !isXeMay;
+        if (isXeMay) soLuong.value = "";
+      }
+
+      if (taiTrong) {
+        taiTrong.disabled = isXeMay;
+        taiTrong.required = !isXeMay;
+        if (isXeMay) taiTrong.value = "";
+      }
+    }
+
+    // event listeners
+    loaiXe.addEventListener("change", toggleXe);
+    loaiYeuCau.addEventListener("change", toggleXe);
+    loaiHang.addEventListener("change", toggleXe);
+
+    // chạy lần đầu
+    toggleXe();
+  </script>
 
 
 </body>
-</html>
 
+</html>
